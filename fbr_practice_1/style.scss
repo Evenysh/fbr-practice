@@ -1,0 +1,50 @@
+$bg: #ffffff;
+$text: #1f2937;
+$accent: #2563eb;
+$radius: 16px;
+
+@mixin card-shadow {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: $text;
+}
+
+.product-card {
+  background: $bg;
+  width: 360px;
+  margin: 40px auto;
+  border-radius: $radius;
+  overflow: hidden;
+
+  @include card-shadow;
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  &__info {
+    padding: 16px 18px;
+  }
+
+  &__title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: $accent;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
