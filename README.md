@@ -33,6 +33,7 @@ Swagger UI (для документации)
 nanoid (для генерации уникальных ID)
 
 Описание функционала
+
 Backend (Express)
 CRUD API для товаров LEGO:
 GET /api/products — все товары
