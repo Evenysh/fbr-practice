@@ -13,6 +13,8 @@ const emptyForm = {
 function App() {
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [isEditing, setIsEditing] = useState(false); // Для отслеживания редактирования
+  const [currentProductId, setCurrentProductId] = useState(null); // ID редактируемого товара
 
   const load = async () => {
     const data = await getProducts();
@@ -60,6 +62,35 @@ function App() {
     await load();
   };
 
+  const onEdit = (product) => {
+    setIsEditing(true);
+    setForm({
+      name: product.name,
+      category: product.category,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+    });
+    setCurrentProductId(product.id);
+  };
+
+  const onSave = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      name: form.name.trim(),
+      category: form.category.trim(),
+      description: form.description.trim(),
+      price: Number(form.price),
+      stock: Number(form.stock),
+    };
+
+    await updateProduct(currentProductId, payload);
+    setIsEditing(false);
+    setForm(emptyForm);
+    await load();
+  };
+
   return (
     <div className="page">
       <header className="header">
@@ -67,9 +98,9 @@ function App() {
       </header>
 
       <section className="card formCard">
-        <h2>Добавить товар</h2>
+        <h2>{isEditing ? "Редактировать товар" : "Добавить товар"}</h2>
 
-        <form className="form" onSubmit={onCreate}>
+        <form className="form" onSubmit={isEditing ? onSave : onCreate}>
           <label>
             Название
             <input name="name" value={form.name} onChange={onChange} required />
@@ -120,7 +151,7 @@ function App() {
           </div>
 
           <button className="btn" type="submit">
-            Добавить
+            {isEditing ? "Сохранить изменения" : "Добавить"}
           </button>
         </form>
       </section>
@@ -155,6 +186,9 @@ function App() {
               </button>
               <button className="btn danger" onClick={() => onDelete(p.id)}>
                 Удалить
+              </button>
+              <button className="btn edit" onClick={() => onEdit(p)}>
+                Редактировать
               </button>
             </div>
           </article>
