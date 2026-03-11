@@ -1,0 +1,302 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FBR Practice 7-8 API",
+    "version": "1.0.0",
+    "description": "API для практических заданий 7 и 8"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["email", "first_name", "last_name", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "test@mail.com"
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Evgeniya"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Razina"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "test@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678"
+          }
+        }
+      },
+      "CreateProductRequest": {
+        "type": "object",
+        "required": ["title", "category", "description", "price"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "LEGO Stranger Things The Upside Down 75810"
+          },
+          "category": {
+            "type": "string",
+            "example": "LEGO"
+          },
+          "description": {
+            "type": "string",
+            "example": "Лего - Очень странные дела"
+          },
+          "price": {
+            "type": "number",
+            "example": 99999
+          }
+        }
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "LEGO Stranger Things The Upside Down 75810"
+          },
+          "category": {
+            "type": "string",
+            "example": "LEGO"
+          },
+          "description": {
+            "type": "string",
+            "example": "Обновлённое описание"
+          },
+          "price": {
+            "type": "number",
+            "example": 109999
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Регистрация пользователя",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь создан"
+          },
+          "400": {
+            "description": "Некорректные данные"
+          },
+          "409": {
+            "description": "Пользователь уже существует"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Вход в систему",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешный вход"
+          },
+          "401": {
+            "description": "Неверные данные"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Получить текущего пользователя",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные пользователя"
+          },
+          "401": {
+            "description": "Требуется токен"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "post": {
+        "summary": "Создать товар",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Товар создан"
+          },
+          "400": {
+            "description": "Некорректные данные"
+          }
+        }
+      },
+      "get": {
+        "summary": "Получить список товаров",
+        "responses": {
+          "200": {
+            "description": "Список товаров"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Получить товар по id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар найден"
+          },
+          "401": {
+            "description": "Требуется токен"
+          },
+          "404": {
+            "description": "Товар не найден"
+          }
+        }
+      },
+      "put": {
+        "summary": "Обновить товар",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Товар обновлён"
+          },
+          "401": {
+            "description": "Требуется токен"
+          },
+          "404": {
+            "description": "Товар не найден"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удалить товар",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Товар удалён"
+          },
+          "401": {
+            "description": "Требуется токен"
+          },
+          "404": {
+            "description": "Товар не найден"
+          }
+        }
+      }
+    }
+  }
+}
