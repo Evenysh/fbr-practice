@@ -1,0 +1,11 @@
+{
+  "name": "fbr_practice_11_backend",
+  "version": "1.0.0",
+  "description": "Backend for practice 11",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "license": "ISC",
+  "type": "commonjs"
+}
