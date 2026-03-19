@@ -43,6 +43,14 @@ function ProductDetailsPage() {
 
       {product && (
         <div className="card">
+          {product.image && (
+            <img
+              src={`http://localhost:3000${product.image}`}
+              alt={product.title}
+              className="product-image"
+            />
+          )}
+
           <p><strong>ID:</strong> {product.id}</p>
           <p><strong>Название:</strong> {product.title}</p>
           <p><strong>Категория:</strong> {product.category}</p>

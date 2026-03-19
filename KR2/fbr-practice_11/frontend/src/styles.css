@@ -185,6 +185,12 @@ select {
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
 }
 
+.product-left {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
 .product-main {
   display: grid;
   gap: 4px;
@@ -193,6 +199,26 @@ select {
 .product-main strong {
   color: #111827;
   font-size: 17px;
+}
+
+.product-thumb {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 320px;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .actions {
@@ -273,6 +299,10 @@ select {
   }
 
   .product-item {
+    flex-direction: column;
+  }
+
+  .product-left {
     flex-direction: column;
   }
 

@@ -14,6 +14,7 @@ function ProductsPage() {
     category: "",
     description: "",
     price: "",
+    image: null,
   });
 
   const canViewProducts =
@@ -46,9 +47,11 @@ function ProductsPage() {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value, files, type } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: type === "file" ? files[0] : value,
     });
   };
 
@@ -56,9 +59,20 @@ function ProductsPage() {
     e.preventDefault();
 
     try {
-      await api.post("/api/products", {
-        ...form,
-        price: Number(form.price),
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("category", form.category);
+      formData.append("description", form.description);
+      formData.append("price", form.price);
+
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      await api.post("/api/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       setForm({
@@ -66,6 +80,7 @@ function ProductsPage() {
         category: "",
         description: "",
         price: "",
+        image: null,
       });
 
       setIsError(false);
@@ -93,7 +108,9 @@ function ProductsPage() {
     return (
       <div className="page">
         <h1>Товары</h1>
-        <p className="message-error">Для просмотра товаров необходимо войти в систему.</p>
+        <p className="message-error">
+          Для просмотра товаров необходимо войти в систему.
+        </p>
       </div>
     );
   }
@@ -136,6 +153,12 @@ function ProductsPage() {
               value={form.price}
               onChange={handleChange}
             />
+            <input
+              name="image"
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+            />
             <button type="submit">Создать товар</button>
           </form>
         </div>
@@ -157,10 +180,20 @@ function ProductsPage() {
           <ul className="product-list">
             {products.map((product) => (
               <li key={product.id} className="product-item">
-                <div className="product-main">
-                  <strong>{product.title}</strong>
-                  <span>{product.category}</span>
-                  <span>{product.price} ₽</span>
+                <div className="product-left">
+                  {product.image && (
+                    <img
+                      src={`http://localhost:3000${product.image}`}
+                      alt={product.title}
+                      className="product-thumb"
+                    />
+                  )}
+
+                  <div className="product-main">
+                    <strong>{product.title}</strong>
+                    <span>{product.category}</span>
+                    <span>{product.price} ₽</span>
+                  </div>
                 </div>
 
                 <div className="actions">

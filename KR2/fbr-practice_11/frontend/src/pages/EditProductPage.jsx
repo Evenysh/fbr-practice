@@ -12,8 +12,10 @@ function EditProductPage() {
     category: "",
     description: "",
     price: "",
+    image: null,
   });
 
+  const [currentImage, setCurrentImage] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -25,7 +27,9 @@ function EditProductPage() {
           category: response.data.category,
           description: response.data.description,
           price: response.data.price,
+          image: null,
         });
+        setCurrentImage(response.data.image || "");
       } catch (error) {
         setMessage(error.response?.data?.error || "Ошибка загрузки товара");
       }
@@ -35,9 +39,11 @@ function EditProductPage() {
   }, [id]);
 
   const handleChange = (e) => {
+    const { name, value, files, type } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: type === "file" ? files[0] : value,
     });
   };
 
@@ -45,9 +51,20 @@ function EditProductPage() {
     e.preventDefault();
 
     try {
-      await api.put(`/api/products/${id}`, {
-        ...form,
-        price: Number(form.price),
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("category", form.category);
+      formData.append("description", form.description);
+      formData.append("price", form.price);
+
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      await api.put(`/api/products/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       navigate("/products");
@@ -63,7 +80,9 @@ function EditProductPage() {
     return (
       <div className="page">
         <h1>Редактирование товара</h1>
-        <p className="message-error">У вас нет прав для редактирования товара.</p>
+        <p className="message-error">
+          У вас нет прав для редактирования товара.
+        </p>
       </div>
     );
   }
@@ -100,6 +119,22 @@ function EditProductPage() {
           value={form.price}
           onChange={handleChange}
         />
+
+        {currentImage && (
+          <img
+            src={`http://localhost:3000${currentImage}`}
+            alt="Текущее изображение"
+            className="product-image"
+          />
+        )}
+
+        <input
+          name="image"
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
+        />
+
         <button type="submit">Сохранить</button>
       </form>
 
