@@ -1,11 +1,18 @@
-const CACHE_NAME = 'notes-cache-v1';
+const CACHE_NAME = 'notes-cache-v2';
 
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './sw.js'
+  './manifest.json',
+  './icons/apple-touch-icon-152x152.png',
+  './icons/icon-32x32.png',
+  './icons/icon-48x48.png',
+  './icons/icon-64x64.png',
+  './icons/icon-128x128.png',
+  './icons/icon-256x256.png',
+  './icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', (event) => {
