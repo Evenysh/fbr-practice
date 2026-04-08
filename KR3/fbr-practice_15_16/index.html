@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Заметки (15-16)</title>
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#6b3f2a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon-152x152.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png" />
+</head>
+<body>
+  <div class="shell">
+    <header class="app-header">
+      <h1>Мои заметки</h1>
+
+      <nav class="tabs">
+        <button id="home-btn" class="tab active">Главная</button>
+        <button id="about-btn" class="tab">О нас</button>
+      </nav>
+    </header>
+
+    <main id="app-content" class="app-content">
+      <!-- Сюда будет подгружаться динамический контент -->
+    </main>
+  </div>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
