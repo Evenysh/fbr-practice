@@ -1,0 +1,36 @@
+<div class="home-content">
+  <h2 class="section-title">Добавить заметку</h2>
+
+  <form id="note-form" class="note-form">
+    <input
+      type="text"
+      id="note-input"
+      placeholder="Введите текст заметки"
+      required
+    />
+    <button type="submit">Добавить</button>
+  </form>
+
+  <form id="reminder-form" class="reminder-form">
+    <input
+      type="text"
+      id="reminder-text"
+      placeholder="Текст напоминания"
+      required
+    />
+    <input
+      type="datetime-local"
+      id="reminder-time"
+      required
+    />
+    <button type="submit">Добавить с напоминанием</button>
+  </form>
+
+  <div class="push-controls">
+    <button id="enable-push" class="push-btn success">Включить уведомления</button>
+    <button id="disable-push" class="push-btn danger" style="display: none;">Отключить уведомления</button>
+  </div>
+
+  <h2 class="section-title notes-title">Список заметок</h2>
+  <ul id="notes-list" class="notes-list"></ul>
+</div>
