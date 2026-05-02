@@ -177,7 +177,7 @@ async function invalidateProductsCache(productId = null) {
 }
 
 // =========================
-// Вспомогательные функции
+// Вспомогательные функции. 
 // =========================
 async function hashPassword(password) {
   return bcrypt.hash(password, 10);
