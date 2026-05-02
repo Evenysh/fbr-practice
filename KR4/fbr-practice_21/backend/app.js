@@ -105,7 +105,7 @@ async function initRedis() {
 function canUseCache() {
   return redisClient.isOpen;
 }
-
+//чтение из кэша
 function cacheMiddleware(keyBuilder, ttl, options = {}) {
   return async (req, res, next) => {
     if (!canUseCache()) return next();
