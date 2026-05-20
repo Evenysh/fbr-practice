@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+nav {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+main {
+  padding: 1rem;
+}
